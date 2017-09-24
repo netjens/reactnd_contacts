@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
+import { Link } from 'react-router-dom'
 
 class ListContacts extends Component {
     static propTypes = {
@@ -18,18 +19,18 @@ class ListContacts extends Component {
     }
 
     clearQuery = () => {
-        this.setState({query: ''})
+        this.setState({ query: '' })
     }
 
     render() {
-        const {contacts, onDeleteContact} = this.props
-        const {query} = this.state
+        const { contacts, onDeleteContact } = this.props
+        const { query } = this.state
 
-        let showingContacts 
-        if(query){
-            const match = new RegExp(escapeRegExp(query),'i')
-            showingContacts  = contacts.filter((contact)=>match.test(contact.name))
-        }else{
+        let showingContacts
+        if (query) {
+            const match = new RegExp(escapeRegExp(query), 'i')
+            showingContacts = contacts.filter((contact) => match.test(contact.name))
+        } else {
             showingContacts = contacts
         }
 
@@ -43,16 +44,16 @@ class ListContacts extends Component {
                         placeholder='Search contacts'
                         value={query}
                         onChange={(event) => this.updateQuery(event.target.value)} />
-                        <a href="#create" 
-                        onClick={this.props.onNavigate}
-                        className="add-contact"
-                        >Add Contact</a>
+                    <Link 
+                        to="/create"
+                       className="add-contact"
+                    >Add Contact</Link>
                 </div>
 
                 {showingContacts.length !== contacts.length && (<div className='showing-contacts'>
                     <span>Now showing {showingContacts.length} of {contacts.length} total</span>
-                        <button onClick={this.clearQuery}>show all </button>
-                    </div>)}
+                    <button onClick={this.clearQuery}>show all </button>
+                </div>)}
 
                 <ol className='contact-List'>
                     {showingContacts.map((contact) => (
